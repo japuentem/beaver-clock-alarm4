@@ -1,0 +1,51 @@
+.date {
+  font-size: 1em;
+  text-align: center;
+  padding: 50px;
+}
+
+.time {
+  font-size: 6em;
+  text-align: center;
+}
+
+.ampm {
+  font-size: 3em;
+  text-align: center;
+  padding: 50px;
+}
+
+.divisor {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left,
+.right {
+  width: 15%;
+}
+
+.center {
+  width: 70%;
+}
+
+.color-alarm1 {
+  padding-top: 50%;
+  color: var(--beaver-color-indianred);
+}
+
+.color-alarm2 {
+  padding-top: 50%;
+  color: var(--beaver-color-jade);
+}
+
+.example {
+  background-color: rgb(255, 122, 89);
+}
+
+.border {
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 2px;
+}

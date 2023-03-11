@@ -1,0 +1,51 @@
+<ion-content>
+  <div class="divisor" [ngStyle]="{'background-color': backgroundColor}">
+    <div class="left">
+      <div>
+        <div>
+          <ion-label (click)="deleteAlarm(1)">
+            Alarm 1 {{alarmTime1}}
+          </ion-label>
+        </div>
+        <ion-button (click)="showControlerAlarm(1)" expand="full">
+          <ion-icon name="alarm-outline" size="large"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="!isMuted1" (click)="muteAlarm(1)" expand="block">
+          <ion-icon name="volume-high-outline" size="large"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="isMuted1" (click)="unmuteAlarm(1)" expand="block">
+          <ion-icon name="volume-mute-outline" size="large"></ion-icon>
+        </ion-button>
+      </div>
+      <div>
+        <div>
+          <ion-label (click)="deleteAlarm(2)">
+            Alarm 2 {{alarmTime2}}
+          </ion-label>
+        </div>
+        <ion-button (click)="showControlerAlarm(2)" expand="full">
+          <ion-icon name="alarm-outline" size="large"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="!isMuted2" (click)="muteAlarm(2)" expand="block">
+          <ion-icon name="volume-high-outline" size="large"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="isMuted2" (click)="unmuteAlarm(2)" expand="block">
+          <ion-icon name="volume-mute-outline" size="large"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+    <div class="center">
+      <div class="date">{{ currentDate | date:'EEEE, d MMMM y' }}</div>
+      <div class="time">{{ currentTime | date:'hh:mm:ss' }}</div>
+      <div class="ampm">{{ currentTime | date:'a' }}</div>
+    </div>
+
+    <div class="right">
+      <ion-button (click)="showControlerColor()" expand="full">
+        Color
+        <ion-icon slot="end" name="settings-outline" size="large"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
