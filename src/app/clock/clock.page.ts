@@ -21,6 +21,8 @@ export class ClockPage implements OnInit {
   isMuted1: boolean = false;
   isMuted2: boolean = false;
   backgroundColor: string = '';
+  isCheckingAlarm1: boolean = false;
+  isCheckingAlarm2: boolean = false;
 
   private alarmSound = new Howl({
     src: ['../../../assets/sounds/Alarm Clock Alarm.mp3'],
@@ -35,14 +37,13 @@ export class ClockPage implements OnInit {
   ngOnInit() {
     this.getColor();
     this.getAlarm();
-    this.getCurrentDate();
+    this.showCurrentDate();
   }
 
-  getCurrentDate() {
+  showCurrentDate() {
     this.currentDate = new Date().toISOString();
     setInterval(() => {
       this.currentTime = new Date().toISOString();
-      this.checkAlarm();
     }, 1000);
   }
 
@@ -50,6 +51,7 @@ export class ClockPage implements OnInit {
   async init() {
     const storage = await this.storage.create();
     this.myStorage = storage;
+    this.checkingAlarmMinute();
   }
 
   // Función para mostrar la alarma guardada localmente
@@ -93,6 +95,17 @@ export class ClockPage implements OnInit {
     }
   }
 
+  checkingAlarmMinute() {
+    this.currentDate = new Date().toISOString();
+
+    setTimeout(() => {
+      this.checkAlarm();
+      setInterval(() => {
+        this.checkAlarm();
+      }, 60000);
+    }, (60 - new Date().getSeconds()) * 1000);
+  }
+
   async showControlerAlarm(alarm: number) {
     const alert = await this.alertController.create({
       header: 'Seleccionar hora',
@@ -115,6 +128,7 @@ export class ClockPage implements OnInit {
             this.alarmTempStore = data.time;
             this.init();
             this.storage.set('alarm' + alarm, data.time);
+            this.checkingAlarmMinute();
             this.getAlarm();
           },
         },
@@ -210,7 +224,6 @@ export class ClockPage implements OnInit {
             this.backgroundColor = event;
             // Agregar el color al almacenamiento local
             this.init();
-
             this.storage.set('color', this.backgroundColor);
           },
         },
@@ -222,14 +235,16 @@ export class ClockPage implements OnInit {
 
   // Funcion para revisar cada segundo si la hora actual es igual a alguna de las alarmas almacenadas
   async checkAlarm() {
-    console.log('Checking alarm');
-
     const now = new Date();
-    const currentHourMinute = now.getHours() + now.getMinutes();
+    const currentHourMinute =
+      now.getHours().toString().padStart(2, '0') +
+      ':' +
+      now.getMinutes().toString().padStart(2, '0');
 
     this.init();
     const alarm1check1 = await this.storage.get('alarm1');
     const alarm1check2 = await this.storage.get('alarm2');
+    console.log('Checking alarm');
 
     if (
       currentHourMinute === alarm1check1 &&

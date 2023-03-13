@@ -36,8 +36,8 @@
     </div>
     <div class="bottom">
       <div *ngIf="alarmTime1" class="left">
-        <ion-label> Alarm 1 </ion-label>
-        <ion-label> {{alarmTime1}} </ion-label>
+        <ion-label class="color-alarm1"> Alarm 1 </ion-label>
+        <ion-label class="color-alarm1"> {{alarmTime1}} </ion-label>
         <ion-button
           *ngIf="!isMuted1"
           (click)="muteAlarm(1)"
@@ -62,8 +62,8 @@
         </ion-button>
       </div>
       <div *ngIf="alarmTime2" class="right">
-        <ion-label> Alarm 2 </ion-label>
-        <ion-label> {{alarmTime2}} </ion-label>
+        <ion-label class="color-alarm2"> Alarm 2 </ion-label>
+        <ion-label class="color-alarm2"> {{alarmTime2}} </ion-label>
         <ion-button
           *ngIf="!isMuted2"
           (click)="muteAlarm(2)"
