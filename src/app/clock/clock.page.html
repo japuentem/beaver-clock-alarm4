@@ -1,4 +1,92 @@
 <ion-content>
+  <div class="container" [ngStyle]="{'background-color': backgroundColor}">
+    <div class="top">
+      <div class="left">
+        <ion-button (click)="showControlerAlarm(1)" expand="block" size="small">
+          <ion-icon name="alarm-outline" size="medium"></ion-icon>Set Alarm
+        </ion-button>
+        <ion-button
+          *ngIf="alarmTime1"
+          (click)="deleteAlarm(1)"
+          expand="block"
+          size="small"
+        >
+          <ion-icon name="trash-outline" size="medium"></ion-icon>Clear Alarm
+        </ion-button>
+      </div>
+      <div class="center">Beaver Software - Clock Alarm</div>
+      <div class="right">
+        <ion-button (click)="showControlerAlarm(2)" expand="block" size="small">
+          <ion-icon name="alarm-outline" size="medium"></ion-icon>Set Alarm
+        </ion-button>
+        <ion-button
+          *ngIf="alarmTime2"
+          (click)="deleteAlarm(2)"
+          expand="block"
+          size="small"
+        >
+          <ion-icon name="trash-outline" size="medium"></ion-icon>Clear Alarm
+        </ion-button>
+      </div>
+    </div>
+    <div class="middle">
+      <div class="date">{{ currentDate | date:'EEEE, d MMMM y' }}</div>
+      <div class="time">{{ currentTime | date:'hh:mm:ss' }}</div>
+      <div class="ampm">{{ currentTime | date:'a' }}</div>
+    </div>
+    <div class="bottom">
+      <div *ngIf="alarmTime1" class="left">
+        <ion-label> Alarm 1 </ion-label>
+        <ion-label> {{alarmTime1}} </ion-label>
+        <ion-button
+          *ngIf="!isMuted1"
+          (click)="muteAlarm(1)"
+          expand="block"
+          size="small"
+        >
+          <ion-icon name="volume-high-outline" size="medium"></ion-icon>Mute
+        </ion-button>
+        <ion-button
+          *ngIf="isMuted1"
+          (click)="unmuteAlarm(1)"
+          expand="block"
+          size="small"
+        >
+          <ion-icon name="volume-mute-outline" size="medium"></ion-icon>Unmute
+        </ion-button>
+      </div>
+      <div class="center">
+        <ion-button (click)="showControlerColor()" expand="block" size="small">
+          Color
+          <ion-icon slot="end" name="settings-outline" size="medium"></ion-icon>
+        </ion-button>
+      </div>
+      <div *ngIf="alarmTime2" class="right">
+        <ion-label> Alarm 2 </ion-label>
+        <ion-label> {{alarmTime2}} </ion-label>
+        <ion-button
+          *ngIf="!isMuted2"
+          (click)="muteAlarm(2)"
+          expand="block"
+          size="small"
+        >
+          <ion-icon name="volume-high-outline" size="medium"></ion-icon>Mute
+        </ion-button>
+        <ion-button
+          *ngIf="isMuted2"
+          (click)="unmuteAlarm(2)"
+          expand="block"
+          size="small"
+        >
+          <ion-icon name="volume-mute-outline" size="medium"></ion-icon>Unmute
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!--
+<ion-content>
   <div class="divisor" [ngStyle]="{'background-color': backgroundColor}">
     <div class="left">
       <div>
@@ -49,3 +137,4 @@
     </div>
   </div>
 </ion-content>
+ -->

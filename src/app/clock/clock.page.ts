@@ -30,16 +30,20 @@ export class ClockPage implements OnInit {
     public alertController: AlertController,
     private storage: Storage,
     private alarmService: AlarmsService
-  ) {
-    this.currentDate = new Date().toISOString();
-    setInterval(() => {
-      this.currentTime = new Date().toISOString();
-    }, 1000);
-  }
+  ) {}
 
   ngOnInit() {
     this.getColor();
     this.getAlarm();
+    this.getCurrentDate();
+  }
+
+  getCurrentDate() {
+    this.currentDate = new Date().toISOString();
+    setInterval(() => {
+      this.currentTime = new Date().toISOString();
+      this.checkAlarm();
+    }, 1000);
   }
 
   // Función para inicializar el almacenamiento local
@@ -53,8 +57,6 @@ export class ClockPage implements OnInit {
     this.init();
     this.alarmTime1 = await this.storage.get('alarm1');
     this.alarmTime2 = await this.storage.get('alarm2');
-    console.log('Showing alarm1: ', this.alarmTime1);
-    console.log('Showing alarm2: ', this.alarmTime2);
   }
 
   // Función para borrar la alarma guardada localmente
@@ -67,12 +69,9 @@ export class ClockPage implements OnInit {
   async getColor() {
     this.init();
     this.backgroundColor = await this.storage.get('color');
-    console.log('Showing color: ', this.backgroundColor);
   }
 
   muteAlarm(alarm: number) {
-    console.log('mute alarm: ', alarm);
-
     // this.alarmSound.mute();
     if (alarm == 1) {
       this.alarmSound.mute();
@@ -84,7 +83,6 @@ export class ClockPage implements OnInit {
   }
 
   unmuteAlarm(alarm: number) {
-    console.log('unmute alarm: ', alarm);
     // this.alarmSound.mute(false);
     if (alarm == 1) {
       this.alarmSound.mute(false);
@@ -117,7 +115,6 @@ export class ClockPage implements OnInit {
             this.alarmTempStore = data.time;
             this.init();
             this.storage.set('alarm' + alarm, data.time);
-            console.log('Alarm stored');
             this.getAlarm();
           },
         },
@@ -131,6 +128,28 @@ export class ClockPage implements OnInit {
       header: 'Select a color',
       inputs: [
         {
+          name: 'color',
+          type: 'radio',
+          label: 'Old Rose',
+          value: '#C38778',
+          checked: this.backgroundColor === '#C38778',
+        },
+        {
+          name: 'color',
+          type: 'radio',
+          label: 'Brown',
+          value: '#784132',
+          checked: this.backgroundColor === '#784132',
+        },
+        {
+          name: 'color',
+          type: 'radio',
+          label: 'Light Blue',
+          value: '#A3D4FF',
+          checked: this.backgroundColor === '#A3D4FF',
+        },
+
+        /*         {
           name: 'color',
           type: 'radio',
           label: 'Celestial Blue',
@@ -178,7 +197,7 @@ export class ClockPage implements OnInit {
           label: 'Royal Purple',
           value: '#7768ae',
           checked: this.backgroundColor === '#7768ae',
-        },
+        }, */
       ],
       buttons: [
         {
@@ -189,17 +208,47 @@ export class ClockPage implements OnInit {
           text: 'Ok',
           handler: (event) => {
             this.backgroundColor = event;
-            console.log(this.backgroundColor);
             // Agregar el color al almacenamiento local
             this.init();
 
             this.storage.set('color', this.backgroundColor);
-            console.log('Color watch stored');
           },
         },
       ],
     });
 
     await alert.present();
+  }
+
+  // Funcion para revisar cada segundo si la hora actual es igual a alguna de las alarmas almacenadas
+  async checkAlarm() {
+    console.log('Checking alarm');
+
+    const now = new Date();
+    const currentHourMinute = now.getHours() + now.getMinutes();
+
+    this.init();
+    const alarm1check1 = await this.storage.get('alarm1');
+    const alarm1check2 = await this.storage.get('alarm2');
+
+    if (
+      currentHourMinute === alarm1check1 &&
+      !this.isMuted1 &&
+      !this.isAlarmOn1
+    ) {
+      this.alarmSound.play();
+      this.isAlarmOn1 = true;
+      console.log('suena alarma 1');
+    }
+
+    if (
+      currentHourMinute === alarm1check2 &&
+      !this.isMuted2 &&
+      !this.isAlarmOn2
+    ) {
+      this.alarmSound.play();
+      this.isAlarmOn2 = true;
+      console.log('suena alarma 2');
+    }
   }
 }

@@ -9,13 +9,18 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'clock',
+    redirectTo: 'welcome',
     pathMatch: 'full',
   },
   {
     path: 'clock',
     loadChildren: () =>
       import('./clock/clock.module').then((m) => m.ClockPageModule),
+  },
+  {
+    path: 'welcome',
+    loadChildren: () =>
+      import('./welcome/welcome.module').then((m) => m.WelcomePageModule),
   },
 ];
 
